@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		<title> ARQII Área 1 </title>
+		<meta charset="utf-8"/>
+		<meta name="author" content="FKF"/>
+		<meta name="description" content="Fazendo a boa pro Max"/>
+		<meta name="keywords" content="ARQ II, fácil, gabarito"/>
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<script src="arqii.js"></script>
+	</head>
+	<body>
+		<div id="topo">
+			<h1>ARQ II Descomplicada</h1>
+			<h2>Powered by FKF</h2>
+		</div>
+		<div id="conteudo">
+			<br><br>
+			<fieldset>
+				<legend>Mapeamento da Memória Cache:</legend>
+				<div>
+					<input type="radio" id="direto" name="map" onclick="changeInputs(0)" value="0" />
+					<label for="direto">Direto</label>
+				</div>
+				<div>
+					<input type="radio" id="associativo" name="map" onclick="changeInputs(1)" value="1" />
+					<label for="associativo">Associativo</label>
+				</div>
+				<div>
+					<input type="radio" id="conjAssociativo" name="map" onclick="changeInputs(2)" value="2" />
+					<label for="conjAssociativo">Conjunto Associativo</label>
+				</div>
+			</fieldset>
+			<br>
+			<div id="container-variaveis" style="height: auto;">
+				<div class="variaveisLeft">
+					<fieldset hidden id="temVariaveis">
+						<legend>Quais variáveis você tem informação?</legend>
+						<div id="var00">
+							<input type="checkbox" class="varCheck" id="var00Chck" onchange="exibeCaixa(this)">
+							<label for="var00Chck">Número de Blocos da Cache</label>
+						</div>
+						<div id="var01">
+							<input type="checkbox" class="varCheck" id="var01Chck" onchange="exibeCaixa(this)">
+							<label for="var01Chck">Tamanho do Conjunto</label>
+						</div>
+						<div id="var02">
+							<input type="checkbox" class="varCheck" id="var02Chck" onchange="exibeCaixa(this)">
+							<label for="var02Chck">Número de Blocos do Conjunto</label>
+						</div>
+						<div id="var03">
+							<input type="checkbox" class="varCheck" id="var03Chck" onchange="exibeCaixa(this)">
+							<label for="var03Chck">Tamanho do Bloco</label>
+						</div>
+						<div id="var04">
+							<input type="checkbox" class="varCheck" id="var04Chck" onchange="exibeCaixa(this)">
+							<label for="var04Chck">Tamanho da Cache</label>
+						</div>
+						<div id="var05">
+							<input type="checkbox" class="varCheck" id="var05Chck" onchange="exibeCaixa(this)">
+							<label for="var05Chck">Número de Conjuntos</label>
+						</div>
+						<div id="var06">
+							<input type="checkbox" class="varCheck" id="var06Chck" onchange="exibeCaixa(this)">
+							<label for="var06Chck">Bloco da Cache</label>
+						</div>
+						<div id="var07">
+							<input type="checkbox" class="varCheck" id="var07Chck" onchange="exibeCaixa(this)">
+							<label for="var07Chck">Bloco da RAM</label>
+						</div>
+						<div id="var08">
+							<input type="checkbox" class="varCheck" id="var08Chck" onchange="exibeCaixa(this)">
+							<label for="var08Chck">Bits Índice</label>
+						</div>
+						<div id="var09">
+							<input type="checkbox" class="varCheck" id="var09Chck" onchange="exibeCaixa(this)">
+							<label for="var09Chck">Bits Offset</label>
+						</div>
+						<div id="var10">
+							<input type="checkbox" class="varCheck" id="var10Chck" onchange="exibeCaixa(this)">
+							<label for="var10Chck">Bits Tag</label>
+						</div>
+						<div id="var11">
+							<input type="checkbox" class="varCheck" id="var11Chck" onchange="exibeCaixa(this)">
+							<label for="var11Chck">Bits Endereco</label>
+						</div>
+					</fieldset>
+				</div>
+				<div class="variaveisRight">
+					<fieldset hidden id="variaveisTem">
+						<legend>Qual o valor das variáveis?</legend>
+						<div hidden id="var00Box">
+							<input type="text" class="varText" id="var00Val">
+							<label for="var00Val">Número de Blocos da Cache</label>
+						</div>
+						<div hidden id="var01Box">
+							<input type="text" class="varText" id="var01Val">
+							<label for="var01Val">Tamanho do Conjunto</label>
+						</div>
+						<div hidden id="var02Box">
+							<input type="text" class="varText" id="var02Val">
+							<label for="var02Val">Número de Blocos do Conjunto</label>
+						</div>
+						<div hidden id="var03Box">
+							<input type="text" class="varText" id="var03Val">
+							<label for="var03Val">Tamanho do Bloco</label>
+						</div>
+						<div hidden id="var04Box">
+							<input type="text" class="varText" id="var04Val">
+							<label for="var04Val">Tamanho da Cache</label>
+						</div>
+						<div hidden id="var05Box">
+							<input type="text" class="varText" id="var05Val">
+							<label for="var05Val">Número de Conjuntos</label>
+						</div>
+						<div hidden id="var06Box">
+							<input type="text" class="varText" id="var06Val">
+							<label for="var06Val">Bloco da Cache</label>
+						</div>
+						<div hidden id="var07Box">
+							<input type="text" class="varText" id="var07Val">
+							<label for="var07Val">Bloco da RAM</label>
+						</div>
+						<div hidden id="var08Box">
+							<input type="text" class="varText" id="var08Val">
+							<label for="var08Val">Bits Índice</label>
+						</div>
+						<div hidden id="var09Box">
+							<input type="text" class="varText" id="var09Val">
+							<label for="var09Val">Bits Offset</label>
+						</div>
+						<div hidden hidden id="var10Box">
+							<input type="text" class="varText" id="var10Val">
+							<label for="var10Val">Bits Tag</label>
+						</div>
+						<div hidden id="var11Box">
+							<input type="text" class="varText" id="var11Val">
+							<label for="var11Val">Bits Endereco</label>
+						</div>
+					</fieldset>
+				</div>
+			</div>
+			<div id="divSelect">
+				<select hidden id="select">
+					<option value="null" id="selectDefault">Selecione a variável Resultado</option>
+					<option value="var00" id="var00Sel">Número de Blocos da Cache</option>
+					<option value="var01" id="var01Sel">Tamanho do Conjunto</option>
+					<option value="var02" id="var02Sel">Número de Blocos do Conjunto</option>
+					<option value="var03" id="var03Sel">Tamanho do Bloco</option>
+					<option value="var04" id="var04Sel">Tamanho da Cache</option>
+					<option value="var05" id="var05Sel">Número de Conjuntos</option>
+					<option value="var06" id="var06Sel">Bloco da Cache</option>
+					<option value="var07" id="var07Sel">Bloco da RAM</option>
+					<option value="var08" id="var08Sel">Bits Índice</option>
+					<option value="var09" id="var09Sel">Bits Offset</option>
+					<option value="var10" id="var10Sel">Bits Tag</option>
+					<option value="var11" id="var11Sel">Bits Endereco</option>
+				</select>
+				<input hidden type="button" value="Calcular" onclick="calcular()" id="calculo">
+			</div>
+			<div id="resultadoSimples"></div>
+			<div id="resultadoDetalhado"><br></div>
+			<input hidden type="button" value="Novo Cálculo" onclick="novoCalculo()" id="novoCalculo">
+		</div>
+	</body>
+</html>

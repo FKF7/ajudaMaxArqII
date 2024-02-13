@@ -1,0 +1,38 @@
+#conteudo {
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.variaveisLeft {
+    width: 45%;
+    float: left;
+    margin-right: 5%;
+}
+
+.variaveisRight {
+    width: 45%;
+    float: left;
+    margin-left: 5%;
+}   
+
+fieldset {
+    width: 100%;
+}
+
+.varText {
+    width: 50px;
+}
+
+#select {
+    float: left;
+}
+
+#divSelect {
+    margin-left: 2px;
+    height: 'auto';
+    margin-top: 100px;
+}
+
+#topo {
+    text-align: center;
+}
