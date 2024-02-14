@@ -23,6 +23,8 @@ class Variavel {
     }
 }
 
+var show = false;
+
 var vars = [
     new Variavel(false, null, "Número de Blocos da Cache"),   //00
 	new Variavel(false, null, "Tamanho do Conjunto"),      //01
@@ -35,7 +37,7 @@ var vars = [
 	new Variavel(false, null, "Bits Índice"),       //08
 	new Variavel(false, null, "Bits Offset"),       //09
 	new Variavel(false, null, "Bits Tag"),          //10
-	new Variavel(false, null, "Bits Endereco"),        //11
+	new Variavel(false, null, "Bits Endereço"),        //11
 ]
 var mapeamento;
 
@@ -49,6 +51,11 @@ const id0 = "var0";
 function changeInputs(value) {
     mapeamento = value;
     var state;
+
+    if (!show) {
+        showSelecaoVariaveis();
+    }
+    
     
     document.getElementById("temVariaveis").style.display = 'block';
     document.getElementById("variaveisTem").style.display = 'block';
@@ -377,4 +384,35 @@ function showResultadoDetalhado() {
     resultado += "</p>";
     document.getElementById("buttonResultadoDetalhado").style.display = "none";
     document.getElementById("resultadoDetalhado").innerHTML = resultado;
+}
+
+function showSelecaoVariaveis() {
+    var temVariaveis = "<legend>Quais variáveis você tem informação?</legend>";
+    var variaveisTem = "<legend>Qual o valor das variáveis?</legend>";
+    var select = "<option value='null' id='selectDefault'>Selecione a variável Resultado</option>"
+
+    for (var i = 0; i < 12; i++) {
+        if (i < 10) {
+            temVariaveis += "<div id='" + id0 + i + "'><input type='checkbox' class='varCheck' id='" + id0 + i + "Chck' onchange='exibeCaixa(this)'>";
+            temVariaveis += "<label for='" + id0 + i + "Chck'>" + vars[i].nome + "</label></div>";
+
+            variaveisTem += "<div hidden id='" + id0 + i + "Box'><input type='text' class='varText' id='" + id0 + i + "Val'>";
+            variaveisTem += "<label for='" + id0 + i + "Val'>" + vars[i].nome + "</label></div>";
+
+            select += "<option value='" + id0 + i + "' id='" + id0 + i + "Sel'>" + vars[i].nome + "</option>"
+        } else {
+            temVariaveis += "<div id='" + id + i + "'><input type='checkbox' class='varCheck' id='" + id + i + "Chck' onchange='exibeCaixa(this)'>";
+            temVariaveis += "<label for='" + id + i + "Chck'>" + vars[i].nome + "</label></div>";
+
+            variaveisTem += "<div hidden id='" + id + i + "Box'><input type='text' class='varText' id='" + id + i + "Val'>";
+            variaveisTem += "<label for='" + id + i + "Val'>" + vars[i].nome + "</label></div>";
+
+            select += "<option value='" + id + i + "' id='" + id + i + "Sel'>" + vars[i].nome + "</option>"
+        }
+    }
+
+    document.getElementById("temVariaveis").innerHTML = temVariaveis;
+    document.getElementById("variaveisTem").innerHTML = variaveisTem;
+    document.getElementById("select").innerHTML = select;
+    show = true;
 }
