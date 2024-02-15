@@ -32,7 +32,7 @@
 				</div>
 			</fieldset>
 			<br>
-			<div id="container-variaveis" style="height: auto;">
+			<div id="containerVariaveis" style="height: auto;">
 				<div class="variaveisLeft">
 					<fieldset hidden id="temVariaveis"></fieldset>
 				</div>
@@ -40,13 +40,40 @@
 					<fieldset hidden id="variaveisTem"></fieldset>
 				</div>
 			</div>
-			<div id="divSelect">
-				<select hidden id="select"></select>
-				<input hidden type="button" value="Calcular" onclick="calcular()" id="calculo">
+			<div id="parteBaixo">
+				<div id="conteinerResultados">
+					<div id="divSelect">
+						<select hidden id="select"></select>
+						<input hidden type="button" value="Calcular" onclick="calcular()" id="botaoCalcular">
+					</div>
+					<div id="resultadoSimples"></div>
+					<div id="resultadoDetalhado"><br></div>
+					<input hidden type="button" value="Novo Cálculo" onclick="novoCalculo()" id="novoCalculo">
+				</div>
+				<div hidden id="containerConversor">
+					<h3>Calculadora de Bytes</h3>
+					<input id='entradaUm' type='text' class='varText'>
+					<select id="selectXB1">
+						<option value='0'>XB</option>
+						<option value='1'>KB</option>
+						<option value='2'>MB</option>
+						<option value='3'>GB</option>
+					</select>
+					 = 
+					<input id='saidaUm' type='text' readonly class='varText'> Bytes
+					  <input type="button" value="Calcular" onclick="calcularBytes1()" id="botaoCalcularXB">
+					<br><br>
+					<input id='entradaDois' type='text' class='varText'> Bytes = 
+					<input id='saidaDois' type='text' readonly class='varText'>
+					<select id="selectXB2">
+						<option value='0'>XB</option>
+						<option value='1'>KB</option>
+						<option value='2'>MB</option>
+						<option value='3'>GB</option>
+					</select>
+					  <input type="button" value="Calcular" onclick="calcularBytes2()" id="botaoCalcularBytes">
+				</div>
 			</div>
-			<div id="resultadoSimples"></div>
-			<div id="resultadoDetalhado"><br></div>
-			<input hidden type="button" value="Novo Cálculo" onclick="novoCalculo()" id="novoCalculo">
 		</div>
 	</body>
 </html>

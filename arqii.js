@@ -60,22 +60,26 @@ function changeInputs(value) {
     document.getElementById("temVariaveis").style.display = 'block';
     document.getElementById("variaveisTem").style.display = 'block';
     document.getElementById("select").style.display = 'block';
-    document.getElementById("calculo").style.display = 'block';
+    document.getElementById("botaoCalcular").style.display = 'block';
+    document.getElementById("containerConversor").style.display = 'block';
 
     reset();
     if (value == 1) {
         document.getElementById("temVariaveis").style.height = 'auto';
         document.getElementById("variaveisTem").style.height = '97px';
+		document.getElementById("containerVariaveis").style.paddingBottom = '27px';
         state = vars1;
     } else {
         document.getElementById("temVariaveis").style.height = 'auto';
         document.getElementById("variaveisTem").style.height = '197px';
+		document.getElementById("containerVariaveis").style.paddingBottom = '127px';
         if (value == 0) {
             state = vars0;
         } else {
             state = vars2;
         }
     }
+	document.getElementById("containerVariaveis").style.height = 'auto';
 
     for (var i = 0; i < 12; i++) {
         if(i < 10) {
@@ -120,7 +124,7 @@ function exibeCaixa(check) {
 
 function calcular() {
     if (confereSeCalcula()) {
-        document.getElementById("calculo").disabled = true;
+        document.getElementById("botaoCalcular").disabled = true;
         atualizaVetorVars();
 
         if (mapeamento == 0) {
@@ -389,7 +393,7 @@ function showResultadoDetalhado() {
 function showSelecaoVariaveis() {
     var temVariaveis = "<legend>Quais variáveis você tem informação?</legend>";
     var variaveisTem = "<legend>Qual o valor das variáveis?</legend>";
-    var select = "<option value='null' id='selectDefault'>Selecione a variável Resultado</option>"
+    var select = "<option value='null' id='selectDefault'>Selecione a variável Resultado</option>";
 
     for (var i = 0; i < 12; i++) {
         if (i < 10) {
@@ -397,7 +401,7 @@ function showSelecaoVariaveis() {
             temVariaveis += "<label for='" + id0 + i + "Chck'>" + vars[i].nome + "</label></div>";
 
             variaveisTem += "<div hidden id='" + id0 + i + "Box'><input type='text' class='varText' id='" + id0 + i + "Val'>";
-            variaveisTem += "<label for='" + id0 + i + "Val'>" + vars[i].nome + "</label></div>";
+            variaveisTem += "<label for='" + id0 + i + "Val'> " + vars[i].nome + "</label></div>";
 
             select += "<option value='" + id0 + i + "' id='" + id0 + i + "Sel'>" + vars[i].nome + "</option>"
         } else {
@@ -405,7 +409,7 @@ function showSelecaoVariaveis() {
             temVariaveis += "<label for='" + id + i + "Chck'>" + vars[i].nome + "</label></div>";
 
             variaveisTem += "<div hidden id='" + id + i + "Box'><input type='text' class='varText' id='" + id + i + "Val'>";
-            variaveisTem += "<label for='" + id + i + "Val'>" + vars[i].nome + "</label></div>";
+            variaveisTem += "<label for='" + id + i + "Val'> " + vars[i].nome + "</label></div>";
 
             select += "<option value='" + id + i + "' id='" + id + i + "Sel'>" + vars[i].nome + "</option>"
         }
@@ -415,4 +419,26 @@ function showSelecaoVariaveis() {
     document.getElementById("variaveisTem").innerHTML = variaveisTem;
     document.getElementById("select").innerHTML = select;
     show = true;
+}
+
+function calcularBytes1() {
+    var a = parseInt(document.getElementById("entradaUm").value);
+    var b = parseInt(document.getElementById("selectXB1").value);
+
+    if (b == 0) {
+        alert("Selecione a escala da entrada!")
+    } else {
+        document.getElementById("saidaUm").value = a * 2 ** (b * 10);
+    }
+}
+
+function calcularBytes2() {
+    var a = parseFloat(document.getElementById("entradaDois").value);
+    var b = parseFloat(document.getElementById("selectXB2").value);
+
+    if (b == 0) {
+        alert("Selecione a escala da entrada!")
+    } else {
+        document.getElementById("saidaDois").value = a / 2 ** (b * 10);
+    }
 }

@@ -20,19 +20,42 @@ fieldset {
 }
 
 .varText {
-    width: 50px;
+    width: 100px;
 }
 
 #select {
     float: left;
+	margin-right: 20px;
 }
 
-#divSelect {
+#parteBaixo {
     margin-left: 2px;
-    height: 'auto';
+    height: auto;
     margin-top: 100px;
 }
 
 #topo {
     text-align: center;
+}
+
+#containerVariaveis {
+	width: 100%;
+}
+
+#containerResultados {
+	width: 40%;
+	float: left;
+}
+
+#containerConversor {
+	width: 40%;
+	float: left;
+}
+
+#botaoCalcular {
+	padding-left: 10px;
+}
+
+#divSelect {
+    width: 50%;
 }
