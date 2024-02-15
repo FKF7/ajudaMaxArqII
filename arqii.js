@@ -128,7 +128,9 @@ function exibeCaixa(check) {
 
 function calcular() {
     if (confereSeCalcula()) {
-        document.getElementById("botaoCalcular").disabled = true;
+        document.getElementById("direto").disabled = true;
+        document.getElementById("associativo").disabled = true;
+        document.getElementById("conjAssociativo").disabled = true;
         atualizaVetorVars();
 
         if (mapeamento == 0) {
@@ -150,38 +152,43 @@ function calcular() {
         
         var i = 0;
         var formulasExec;
-        while (!vars[indBusca].conhecida && !paraF) {
-            formulasExec = 0;
-            while (i < numFormulas & !paraF) {
-                if(listaFormulas[i].podeUsar) {
-                    ind = parseInt(listaFormulas[i].retorno.substr(3,2));
-                    if (listaFormulas[i].varsNecessarias.length == 1) {
-                        vars[ind].valor = Math.floor(f1(listaFormulas[i].formato, vars[parseInt(listaFormulas[i].varsNecessarias[0].substr(3,2))].valor));
-                    } else if (listaFormulas[i].varsNecessarias.length == 2) {
-                        vars[ind].valor = Math.floor(f2(listaFormulas[i].formato, vars[parseInt(listaFormulas[i].varsNecessarias[0].substr(3,2))].valor, vars[parseInt(listaFormulas[i].varsNecessarias[1].substr(3,2))].valor));
-                    } else {
-                        vars[ind].valor = Math.floor(f3(listaFormulas[i].formato, vars[parseInt(listaFormulas[i].varsNecessarias[0].substr(3,2))].valor, vars[parseInt(listaFormulas[i].varsNecessarias[1].substr(3,2))].valor, vars[parseInt(listaFormulas[i].varsNecessarias[2].substr(3,2))].valor));
-                    }
-                    vars[ind].conhecida = true;
-                    atualizaPodeUsar();
-                    formulasExec++;
-                }
-                i++;
-            }
-            if (formulasExec == 0) {
-                paraF = true;
-            } else {
-                formulasExec = 0;
-            }
-            i = 0;
-        }
-
-        if (paraF) {
-            alert("Não é possível descobrir sobre " + vars[indBusca].nome + " com os dados fornecidos");
+        if (vars[indBusca].conhecida) {
+            alert("Você já tem o resulado da variável que está procurando!");
         } else {
-            showResultadoSimples(indBusca);
+            while (!vars[indBusca].conhecida && !paraF) {
+                formulasExec = 0;
+                while (i < numFormulas & !paraF) {
+                    if(listaFormulas[i].podeUsar) {
+                        ind = parseInt(listaFormulas[i].retorno.substr(3,2));
+                        if (listaFormulas[i].varsNecessarias.length == 1) {
+                            vars[ind].valor = Math.floor(f1(listaFormulas[i].formato, vars[parseInt(listaFormulas[i].varsNecessarias[0].substr(3,2))].valor));
+                        } else if (listaFormulas[i].varsNecessarias.length == 2) {
+                            vars[ind].valor = Math.floor(f2(listaFormulas[i].formato, vars[parseInt(listaFormulas[i].varsNecessarias[0].substr(3,2))].valor, vars[parseInt(listaFormulas[i].varsNecessarias[1].substr(3,2))].valor));
+                        } else {
+                            vars[ind].valor = Math.floor(f3(listaFormulas[i].formato, vars[parseInt(listaFormulas[i].varsNecessarias[0].substr(3,2))].valor, vars[parseInt(listaFormulas[i].varsNecessarias[1].substr(3,2))].valor, vars[parseInt(listaFormulas[i].varsNecessarias[2].substr(3,2))].valor));
+                        }
+                        vars[ind].conhecida = true;
+                        atualizaPodeUsar();
+                        formulasExec++;
+                    }
+                    i++;
+                }
+                if (formulasExec == 0) {
+                    paraF = true;
+                } else {
+                    formulasExec = 0;
+                }
+                i = 0;
+            }
+    
+            if (paraF) {
+                alert("Não é possível descobrir sobre " + vars[indBusca].nome + " com os dados fornecidos");
+            } else {
+                hideResultado();
+                showResultadoSimples(indBusca);
+            }
+            document.getElementById("novoCalculo").style.display = "block";
         }
-        document.getElementById("novoCalculo").style.display = "block";
     }
 }
 
@@ -413,6 +420,11 @@ function showResultadoDetalhado() {
     resultado += "</p>";
     document.getElementById("buttonResultadoDetalhado").style.display = "none";
     document.getElementById("resultadoDetalhado").innerHTML = resultado;
+}
+
+function hideResultado() {
+    document.getElementById("resultadoSimples").innerHTML = "";
+    document.getElementById("resultadoDetalhado").innerHTML = "";
 }
 
 function showSelecaoVariaveis() {
