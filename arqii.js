@@ -4,7 +4,6 @@ class Formula {
         this.podeUsar = pode;
         this.varsNecessarias = vars;
         this.formato = form;
-        this.usada = used;
     }
 }
 
@@ -24,27 +23,32 @@ class Variavel {
 }
 
 var show = false;
+const numVars = 16;
 
 var vars = [
-    new Variavel(false, null, "Número de Blocos da Cache"),   //00
-	new Variavel(false, null, "Tamanho do Conjunto"),      //01
-	new Variavel(false, null, "Número de Blocos do Conjunto"),//02
-	new Variavel(false, null, "Tamanho do Bloco"),         //03
-	new Variavel(false, null, "Tamanho da Cache"),         //04
-	new Variavel(false, null, "Número de Conjuntos"),     //05
-	new Variavel(false, null, "Bloco da Cache"),       //06
-	new Variavel(false, null, "Bloco da RAM"),         //07
-	new Variavel(false, null, "Bits Índice"),       //08
-	new Variavel(false, null, "Bits Offset"),       //09
-	new Variavel(false, null, "Bits Tag"),          //10
-	new Variavel(false, null, "Bits Endereço"),        //11
+    new Variavel(false, null, "Número de Blocos da Cache"),     //00
+	new Variavel(false, null, "Tamanho do Conjunto"),           //01
+	new Variavel(false, null, "Número de Blocos por Conjunto"), //02
+	new Variavel(false, null, "Tamanho do Bloco (Line Size)"),  //03
+	new Variavel(false, null, "Tamanho da Cache"),              //04
+	new Variavel(false, null, "Número de Conjuntos da Cache"),  //05
+	new Variavel(false, null, "Bloco da Cache"),                //06
+	new Variavel(false, null, "Bloco da RAM"),                  //07
+	new Variavel(false, null, "Bits Índice"),                   //08
+	new Variavel(false, null, "Bits Offset"),                   //09
+	new Variavel(false, null, "Bits Tag"),                      //10
+	new Variavel(false, null, "Bits Endereço"),                 //11
+    new Variavel(false, null, "Endereço RAM"),                  //12
+    new Variavel(false, null, "Bloco Mínimo da RAM"),           //13
+    new Variavel(false, null, "Bloco Máximo da RAM"),           //14
+    new Variavel(false, null, "Conjunto da Cache"),             //15
+
 ]
 var mapeamento;
 
-var vars0 = ["block", "none", "none", "block", "block", "none", "block", "block", "block", "block", "block", "block"]
-var vars1 = ["none", "none", "none", "block", "none", "none", "none", "none", "none", "block", "block", "block"]
-var vars2 = ["none", "block", "block", "block", "block", "block", "none", "none", "block", "block", "block", "block"]
-var conhecida = [false, false, false, false, false, false, false, false, false, false, false, false]
+var vars0 = ["block", "none", "none", "block", "block", "none", "block", "block", "block", "block", "block", "block", "block", "none", "none", "none"]
+var vars1 = ["none", "none", "none", "block", "none", "none", "none", "none", "none", "block", "block", "block", "none", "none", "none", "none"]
+var vars2 = ["none", "block", "block", "block", "block", "block", "none", "block", "block", "block", "block", "block", "block", "block", "block", "block"]
 const id = "var";
 const id0 = "var0";
 
@@ -81,7 +85,7 @@ function changeInputs(value) {
     }
 	document.getElementById("containerVariaveis").style.height = 'auto';
 
-    for (var i = 0; i < 12; i++) {
+    for (var i = 0; i < numVars; i++) {
         if(i < 10) {
             document.getElementById(id0 + i).style.display = state[i];
             document.getElementById(id0 + i + "Sel").style.display = state[i];
@@ -93,7 +97,7 @@ function changeInputs(value) {
 }
 
 function reset() {
-    for (var i = 0; i < 12; i++) {
+    for (var i = 0; i < numVars; i++) {
         if(i < 10) {
             document.getElementById(id0 + i + "Chck").checked = false;
             document.getElementById(id0 + i + "Box").style.display = "none";
@@ -146,17 +150,17 @@ function calcular() {
         
         var i = 0;
         var formulasExec;
-        while (!vars[indBusca].conhecida) {
+        while (!vars[indBusca].conhecida && !paraF) {
             formulasExec = 0;
             while (i < numFormulas & !paraF) {
                 if(listaFormulas[i].podeUsar) {
                     ind = parseInt(listaFormulas[i].retorno.substr(3,2));
                     if (listaFormulas[i].varsNecessarias.length == 1) {
-                        vars[ind].valor = f1(listaFormulas[i].formato, vars[parseInt(listaFormulas[i].varsNecessarias[0].substr(3,2))].valor);
+                        vars[ind].valor = Math.floor(f1(listaFormulas[i].formato, vars[parseInt(listaFormulas[i].varsNecessarias[0].substr(3,2))].valor));
                     } else if (listaFormulas[i].varsNecessarias.length == 2) {
-                        vars[ind].valor = f2(listaFormulas[i].formato, vars[parseInt(listaFormulas[i].varsNecessarias[0].substr(3,2))].valor, vars[parseInt(listaFormulas[i].varsNecessarias[1].substr(3,2))].valor);
+                        vars[ind].valor = Math.floor(f2(listaFormulas[i].formato, vars[parseInt(listaFormulas[i].varsNecessarias[0].substr(3,2))].valor, vars[parseInt(listaFormulas[i].varsNecessarias[1].substr(3,2))].valor));
                     } else {
-                        vars[ind].valor = f3(listaFormulas[i].formato, vars[parseInt(listaFormulas[i].varsNecessarias[0].substr(3,2))].valor, vars[parseInt(listaFormulas[i].varsNecessarias[1].substr(3,2))].valor, vars[parseInt(listaFormulas[i].varsNecessarias[2].substr(3,2))].valor);
+                        vars[ind].valor = Math.floor(f3(listaFormulas[i].formato, vars[parseInt(listaFormulas[i].varsNecessarias[0].substr(3,2))].valor, vars[parseInt(listaFormulas[i].varsNecessarias[1].substr(3,2))].valor, vars[parseInt(listaFormulas[i].varsNecessarias[2].substr(3,2))].valor));
                     }
                     vars[ind].conhecida = true;
                     atualizaPodeUsar();
@@ -187,7 +191,7 @@ function confereSeCalcula() {
         return false;
     }
     
-    for (var i = 0; i < 12; i++) {
+    for (var i = 0; i < numVars; i++) {
         if (i < 10) {
             if (!(getHiddenById(id0 + i + "Box")) & getValueById(id0 + i + "Val") == "") {
                 alert("Preencha todos os dados antes de calcular!");
@@ -201,7 +205,7 @@ function confereSeCalcula() {
         }
     }
 
-    for (var i = 0; i < 12; i++) {
+    for (var i = 0; i < numVars; i++) {
         if (i < 10) {
             if (getCheckedById(id0 + i) == true) {
                 return true;
@@ -219,43 +223,56 @@ function confereSeCalcula() {
 
 //FÓRMULAS
 listaFormulas0 = [
-    new Formula("var00", false, ["var03", "var04"], 4, false),
-    new Formula("var00", false, ["var08"], 0, false),
-    new Formula("var03", false, ["var00", "var04"], 4, false),
-    new Formula("var03", false, ["var09"], 0, false),
-    new Formula("var04", false, ["var00", "var03"], 3, false),
-    new Formula("var06", false, ["var00", "var07"], 2, false),
-    new Formula("var08", false, ["var00"], 1, false),
-    new Formula("var08", false, ["var09", "var10", "var11"], 7, false),
-    new Formula("var09", false, ["var03"], 1, false),
-    new Formula("var09", false, ["var08", "var10", "var11"], 7, false),
-    new Formula("var10", false, ["var08", "var09", "var11"], 7, false),
-    new Formula("var11", false, ["var08", "var09", "var10"], 6, false)
+    new Formula("var00", false, ["var03", "var04"], 4),
+    new Formula("var00", false, ["var08"], 0),
+    new Formula("var03", false, ["var00", "var04"], 4),
+    new Formula("var03", false, ["var07", "var12"], 4),
+    new Formula("var03", false, ["var09"], 0),
+    new Formula("var04", false, ["var00", "var03"], 3),
+    new Formula("var06", false, ["var00", "var07"], 2),
+    new Formula("var07", false, ["var03", "var12"], 4),
+    new Formula("var08", false, ["var00"], 1),
+    new Formula("var08", false, ["var09", "var10", "var11"], 7),
+    new Formula("var09", false, ["var03"], 1),
+    new Formula("var09", false, ["var08", "var10", "var11"], 7),
+    new Formula("var10", false, ["var08", "var09", "var11"], 7),
+    new Formula("var11", false, ["var08", "var09", "var10"], 6),
+    new Formula("var12", false, ["var03", "var07"], 3)
 ]
 
 listaFormulas1 = [
-    new Formula("var03", false, ["var09"], 0, false),
-    new Formula("var09", false, ["var03"], 1, false),
-    new Formula("var09", false, ["var10", "var11"], 9, false),
-    new Formula("var10", false, ["var09", "var11"], 9, false),
-    new Formula("var11", false, ["var09", "var10"], 8, false)
+    new Formula("var03", false, ["var09"], 0),
+    new Formula("var09", false, ["var03"], 1),
+    new Formula("var09", false, ["var10", "var11"], 9),
+    new Formula("var10", false, ["var09", "var11"], 9),
+    new Formula("var11", false, ["var09", "var10"], 8)
 ]
 
 listaFormulas2 = [
-    new Formula("var01", false, ["var02", "var03"], 3, false),
-    new Formula("var01", false, ["var04", "var05"], 5, false),
-    new Formula("var02", false, ["var01", "var03"], 5, false),
-    new Formula("var03", false, ["var01", "var02"], 5, false),
-    new Formula("var03", false, ["var09"], 0, false),
-    new Formula("var04", false, ["var01", "var05"], 3, false),
-    new Formula("var05", false, ["var01", "var04"], 4, false),
-    new Formula("var05", false, ["var08"], 0, false),
-    new Formula("var08", false, ["var05"], 1, false),
-    new Formula("var08", false, ["var09", "var10", "var11"], 7, false),
-    new Formula("var09", false, ["var03"], 1, false),
-    new Formula("var09", false, ["var08", "var10", "var11"], 7, false),
-    new Formula("var10", false, ["var08", "var09", "var11"], 7, false),
-    new Formula("var11", false, ["var08", "var09", "var10"], 6, false)
+    new Formula("var01", false, ["var02", "var03"], 3),
+    new Formula("var01", false, ["var04", "var05"], 5),
+    new Formula("var02", false, ["var01", "var03"], 5),
+    new Formula("var02", false, ["var13", "var14"], 11),
+    new Formula("var02", false, ["var13", "var15"], 5),
+    new Formula("var03", false, ["var01", "var02"], 5),
+    new Formula("var03", false, ["var07", "var12"], 4),
+    new Formula("var03", false, ["var09"], 0),
+    new Formula("var04", false, ["var01", "var05"], 3),
+    new Formula("var05", false, ["var01", "var04"], 4),
+    new Formula("var05", false, ["var08"], 0),
+    new Formula("var07", false, ["var03", "var12"], 4),
+    new Formula("var08", false, ["var05"], 1),
+    new Formula("var08", false, ["var09", "var10", "var11"], 7),
+    new Formula("var09", false, ["var03"], 1),
+    new Formula("var09", false, ["var08", "var10", "var11"], 7),
+    new Formula("var10", false, ["var08", "var09", "var11"], 7),
+    new Formula("var11", false, ["var08", "var09", "var10"], 6),
+    new Formula("var12", false, ["var03", "var07"], 3),
+    new Formula("var13", false, ["var02", "var14"], 11),
+    new Formula("var13", false, ["var02", "var15"], 3),
+    new Formula("var14", false, ["var02", "var13"], 10),
+    new Formula("var15", false, ["var02", "var13"], 4),
+    new Formula("var15", false, ["var05", "var07"], 2)
 ]
 
 /*
@@ -270,6 +287,8 @@ FORMATOS A = f(X, Y, Z)
 7 -> A = Z - X - Y
 8 -> A = X + Y
 9 -> A = Y - X
+10 -> A = X + Y - 1
+11 -> A = Y + 1 - X
 */
 
 function f1(f, x) {
@@ -277,7 +296,7 @@ function f1(f, x) {
         return 2**x;
     }
     if (f == 1) {
-        return Math.log2(x);
+        return Math.ceil(Math.log2(x));
     }
 }
 
@@ -299,6 +318,12 @@ function f2(f, x, y) {
     }
     if (f == 9) {
         return x - y;
+    }
+    if (f == 10) {
+        return x + y - 1;
+    }
+    if (f == 11) {
+        return y + 1 - X;
     }
 }
 
@@ -328,7 +353,7 @@ function getHiddenById(id) {
 }
 
 function atualizaVetorVars() {
-    for (var i = 0; i < 12; i++) {
+    for (var i = 0; i < numVars; i++) {
         if (i < 10) {
             if (getCheckedById(id0 + i)) {
                 vars[i].conhecida = true;
@@ -376,7 +401,7 @@ function showResultadoDetalhado() {
     var resultado = "<p><strong style='font-size: 18px;'>Outros Dados Obtidos:</strong>";
     var dados = 0;
 
-    for (var i = 0; i < 12; i++) {
+    for (var i = 0; i < numVars; i++) {
         if (vars[i].conhecida & i != indBusca) {
             dados++;
             resultado += ("<br>" + vars[i].nome + " = " + vars[i].valor);
@@ -395,7 +420,7 @@ function showSelecaoVariaveis() {
     var variaveisTem = "<legend>Qual o valor das variáveis?</legend>";
     var select = "<option value='null' id='selectDefault'>Selecione a variável Resultado</option>";
 
-    for (var i = 0; i < 12; i++) {
+    for (var i = 0; i < numVars; i++) {
         if (i < 10) {
             temVariaveis += "<div id='" + id0 + i + "'><input type='checkbox' class='varCheck' id='" + id0 + i + "Chck' onchange='exibeCaixa(this)'>";
             temVariaveis += "<label for='" + id0 + i + "Chck'>" + vars[i].nome + "</label></div>";
